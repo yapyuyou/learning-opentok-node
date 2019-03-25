@@ -91,7 +91,7 @@ router.get('/room/:name/:username', function (req, res) {
       tokenOptions.data = "username=" + username;
 
       // Generate a token.
-      token = opentok.generateToken(sessionId, tokenOptions);
+      token = opentok.generateToken(session.sessionId, tokenOptions);
       
       res.setHeader('Content-Type', 'application/json');
       res.send({
