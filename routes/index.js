@@ -46,8 +46,9 @@ router.get('/session', function (req, res) {
 /**
  * GET /room/:name
  */
-router.get('/room/:name', function (req, res) {
+router.get('/room/:name/:username', function (req, res) {
   var roomName = req.params.name;
+  var username = req.params.username;
   var sessionId;
   var token;
   console.log('attempting to create a session associated with the room: ' + roomName);
@@ -81,7 +82,9 @@ router.get('/room/:name', function (req, res) {
       roomToSessionIdDictionary[roomName] = session.sessionId;
 
       // generate token
-      token = opentok.generateToken(session.sessionId);
+      token = session.generateToken({
+        data: username,
+      });
       res.setHeader('Content-Type', 'application/json');
       res.send({
         apiKey: apiKey,
