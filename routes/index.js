@@ -57,8 +57,13 @@ router.get('/room/:name/:username', function (req, res) {
   if (roomToSessionIdDictionary[roomName]) {
     sessionId = roomToSessionIdDictionary[roomName];
 
-    // generate token
-    token = opentok.generateToken(sessionId);
+    var tokenOptions = {};
+    tokenOptions.role = "moderator";
+    tokenOptions.data = "username=" + username;
+
+    // Generate a token.
+    token = opentok.generateToken(sessionId, tokenOptions);
+    
     res.setHeader('Content-Type', 'application/json');
     res.send({
       apiKey: apiKey,
@@ -81,10 +86,13 @@ router.get('/room/:name/:username', function (req, res) {
       // you should use a more persistent storage for them
       roomToSessionIdDictionary[roomName] = session.sessionId;
 
-      // generate token
-      token = session.generateToken({
-        data: username,
-      });
+      var tokenOptions = {};
+      tokenOptions.role = "moderator";
+      tokenOptions.data = "username=" + username;
+
+      // Generate a token.
+      token = opentok.generateToken(sessionId, tokenOptions);
+      
       res.setHeader('Content-Type', 'application/json');
       res.send({
         apiKey: apiKey,
