@@ -103,6 +103,44 @@ router.get('/room/:name/:username', function (req, res) {
   }
 });
 
+router.get('/twilio/room/:name/:username', function (req, res) {
+  var roomName = req.params.name;
+  var username = req.params.username;
+  
+  var AccessToken = require('twilio').jwt.AccessToken;
+  var VideoGrant = AccessToken.VideoGrant;
+
+  // Substitute your Twilio AccountSid and ApiKey details
+  var ACCOUNT_SID = 'AC386b244e1e0d1bf0bbef7afe701caea1';
+  var API_KEY_SID = 'SKc2dc2e97e8327bd4961e62f614015679';
+  var API_KEY_SECRET = 'xnhlPbruPe6G2dURv6cz5kaUgsDnDk6Z';
+
+  // Create an Access Token
+  var accessToken = new AccessToken(
+  ACCOUNT_SID,
+  API_KEY_SID,
+  API_KEY_SECRET
+  );
+
+  // Set the Identity of this token
+  accessToken.identity = username;
+
+  // Grant access to Video
+  var grant = new VideoGrant();
+  grant.room = roomName;
+  accessToken.addGrant(grant);
+
+  // Serialize the token as a JWT
+  var jwt = accessToken.toJwt();
+  console.log(jwt);
+  
+  res.setHeader('Content-Type', 'application/json');
+      res.send({
+        meesage: "nice",
+        token: jwt
+      });
+});
+
 /**
  * POST /archive/start
  */
