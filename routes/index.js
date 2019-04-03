@@ -136,7 +136,7 @@ router.get('/twilio/room/:name/:username', function (req, res) {
   
   res.setHeader('Content-Type', 'application/json');
       res.send({
-        meesage: "nice",
+        message: "joostoos",
         token: jwt
       });
 });
