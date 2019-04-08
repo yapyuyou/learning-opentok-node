@@ -1,5 +1,5 @@
 {
-  "name": "learning-opentok-node",
+  "name": "rest-streaming",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -14,9 +14,10 @@
     "eslint": "^3.10.1",
     "eslint-config-airbnb-base": "^10.0.1",
     "eslint-plugin-import": "^2.2.0",
-    "express": "~4.15.2",
+    "express": "^4.15.5",
     "jade": "~1.11.0",
     "lodash": "^4.17.4",
+    "mongoose": "^5.4.22",
     "morgan": "~1.8.1",
     "opentok": "^2.5.0",
     "serve-favicon": "~2.4.2",
