@@ -6,18 +6,17 @@ const Channel = require('../models/channel');
 
 // POST request to create a new channel, checks channel table before creation
 router.post('/create', (req, res, next)=>{
-    const channel = new Channel({
-        _id: new mongoose.Types.ObjectId(),
-        name: req.body.channelId
-        });
-    channel
-    .save()
-    .then(result=>{
-        console.log(result);
-    });
-    res.status(200).json({
-        message: "Channel created."
-    });
+    Channel.update(
+        {name: req.body.channelId},
+        {name: req.body.channelId},
+        {upsert: true},
+        function(err, doc){
+            if (err) res.status(500).json({error: err});
+            res.status(200).json({
+                message: "Channel created."
+            });
+        }
+    );
 });
 
 // GET request to retrieve channel information
