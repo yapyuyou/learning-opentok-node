@@ -111,9 +111,9 @@ router.get('/twilio/room/:name/:username', function (req, res) {
   var VideoGrant = AccessToken.VideoGrant;
 
   // Substitute your Twilio AccountSid and ApiKey details
-  var ACCOUNT_SID = 'ACd5a5d418506733bfc0db9a87981b986b';
-  var API_KEY_SID = 'SKa015ef705d2176fbe7d62d88b15987bd';
-  var API_KEY_SECRET = 'lGypLY54zhnpJGwbYJVWG7Cgo5vG3xcd';
+  var ACCOUNT_SID = 'AC386b244e1e0d1bf0bbef7afe701caea1';
+  var API_KEY_SID = 'SKc2dc2e97e8327bd4961e62f614015679';
+  var API_KEY_SECRET = 'xnhlPbruPe6G2dURv6cz5kaUgsDnDk6Z';
 
   // Create an Access Token
   var accessToken = new AccessToken(
