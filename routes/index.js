@@ -103,6 +103,16 @@ router.get('/room/:name/:username', function (req, res) {
   }
 });
 
+const VoiceResponse = require('twilio').twiml.VoiceResponse;
+
+router.post('/voice', function(req, res) => {
+  // Use the Twilio Node.js SDK to build an XML response
+  const twiml = new VoiceResponse();
+  const connect = twiml.connect();
+  connect.room('channel1')
+});
+
+
 router.get('/twilio/room/:name/:username', function (req, res) {
   var roomName = req.params.name;
   var username = req.params.username;
@@ -110,7 +120,6 @@ router.get('/twilio/room/:name/:username', function (req, res) {
   var AccessToken = require('twilio').jwt.AccessToken;
   var VideoGrant = AccessToken.VideoGrant;
 
-  // Substitute your Twilio AccountSid and ApiKey details
   var ACCOUNT_SID = 'AC386b244e1e0d1bf0bbef7afe701caea1';
   var API_KEY_SID = 'SKc2dc2e97e8327bd4961e62f614015679';
   var API_KEY_SECRET = 'xnhlPbruPe6G2dURv6cz5kaUgsDnDk6Z';
