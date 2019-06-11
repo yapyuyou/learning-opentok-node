@@ -109,7 +109,7 @@ router.post('/voice', function(req, res) => {
   // Use the Twilio Node.js SDK to build an XML response
   const twiml = new VoiceResponse();
   const connect = twiml.connect();
-  connect.room('channel1')
+  connect.room('channel1');
 });
 
 
