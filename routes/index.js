@@ -108,12 +108,12 @@ const VoiceResponse = require('twilio').twiml.VoiceResponse;
 router.get('/voice', function(req, res) {
   // Use the Twilio Node.js SDK to build an XML response
   const twiml = new VoiceResponse();
-  twiml.say('Hello World');
+  //twiml.say('Hello World');
   
   console.log("yes");
   console.log(res.toString());
-  //const connect = twiml.connect();
-  //connect.room('channel1');
+  const connect = twiml.connect();
+  connect.room('channel1');
 });
 
 
