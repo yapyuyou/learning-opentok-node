@@ -105,7 +105,7 @@ router.get('/room/:name/:username', function (req, res) {
 
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
 
-router.post('/voice', function(req, res) {
+router.get('/voice', function(req, res) {
   // Use the Twilio Node.js SDK to build an XML response
   const twiml = new VoiceResponse();
   twiml.say({ voice: 'alice' }, 'hello world!');
@@ -113,6 +113,8 @@ router.post('/voice', function(req, res) {
   // Render the response as XML in reply to the webhook request
   response.type('text/xml');
   response.send(twiml.toString());
+  console.log("yes");
+  console.log(res.toString());
   //const connect = twiml.connect();
   //connect.room('channel1');
 });
@@ -150,7 +152,7 @@ router.get('/twilio/room/:name/:username', function (req, res) {
   
   res.setHeader('Content-Type', 'application/json');
       res.send({
-        message: "joostoos",
+        message: "VoicR-conference-calling",
         token: jwt
       });
 });
