@@ -104,13 +104,13 @@ router.get('/room/:name/:username', function (req, res) {
 });
 
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
+var n = 1;
 
 router.post('/voice', function (req, res) {  
   // Use the Twilio Node.js SDK to build an XML response
   const twiml = new VoiceResponse();
   //twiml.say({ voice: 'alice' }, 'Hello World');
   const connect = twiml.connect();
-  var n = 1;
   connect.room({ participantIdentity: 'GlobalStar' + n }, 'channel1');
   n++;
   
