@@ -108,7 +108,9 @@ const VoiceResponse = require('twilio').twiml.VoiceResponse;
 router.post('/voice', function (req, res) {  
   // Use the Twilio Node.js SDK to build an XML response
   const twiml = new VoiceResponse();
-  twiml.say({ voice: 'alice' }, 'Hello World');
+  //twiml.say({ voice: 'alice' }, 'Hello World');
+  const connect = twiml.connect();
+  connect.room('channel1');
   
   res.type('text/xml');
   res.send(twiml.toString());
