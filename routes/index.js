@@ -110,15 +110,15 @@ router.post('/voice', function (req, res) {
   const twiml = new VoiceResponse();
   //twiml.say({ voice: 'alice' }, 'Hello World');
   const connect = twiml.connect();
-  connect.room('channel1');
+  var n = 1;
+  connect.room({ participantIdentity: 'GlobalStar' + n }, 'channel1');
+  n++;
   
   res.type('text/xml');
   res.send(twiml.toString());
   
   console.log("yes");
   console.log(res.toString());
-  //const connect = twiml.connect();
-  //connect.room('channel1');
 });
 
 
