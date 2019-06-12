@@ -103,22 +103,27 @@ router.get('/room/:name/:username', function (req, res) {
   }
 });
 
+function makeid(length) {
+   var result           = '';
+   var characters       = '0123456789';
+   var charactersLength = characters.length;
+   for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+   }
+   return result;
+}
+
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
-var n = 1;
 
 router.post('/voice', function (req, res) {  
   // Use the Twilio Node.js SDK to build an XML response
   const twiml = new VoiceResponse();
   //twiml.say({ voice: 'alice' }, 'Hello World');
   const connect = twiml.connect();
-  connect.room({ participantIdentity: 'GlobalStar' + n }, 'channel1');
-  n++;
+  connect.room({ participantIdentity: 'Globalstar#' + makeid(4)}, 'channel1');
   
   res.type('text/xml');
   res.send(twiml.toString());
-  
-  console.log("yes");
-  console.log(res.toString());
 });
 
 
