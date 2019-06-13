@@ -51,7 +51,8 @@ router.get('/tokbox/session', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
         res.send({callId: session.sessionId})
       }
-});
+    });
+})
 
 /**
  * GET /room/:name/:usernae - Non-vaas demo
