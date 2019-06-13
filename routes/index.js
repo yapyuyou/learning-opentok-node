@@ -41,7 +41,7 @@ router.get('/', function (req, res) {
 /**
  * GET /session
  */
-router.get('/tokbox/session', function (req, res) {
+router.get('/tokbox/create', function (req, res) {
   opentok.createSession({ mediaMode: 'routed' }, function (err, session) {
       if (err) {
         console.log(err);
