@@ -32,19 +32,29 @@ function findRoomFromSessionId(sessionId) {
   return _.findKey(roomToSessionIdDictionary, function (value) { return value === sessionId; });
 }
 
+//TOKBOX
+
 router.get('/', function (req, res) {
   res.render('index', { title: 'Learning-OpenTok-Node' });
 });
 
 /**
- * GET /session redirects to /room/session
+ * GET /session
  */
-router.get('/session', function (req, res) {
-  res.redirect('/room/session');
+router.get('/tokbox/session', function (req, res) {
+  opentok.createSession({ mediaMode: 'routed' }, function (err, session) {
+      if (err) {
+        console.log(err);
+        res.status(500).send({ error: 'createSession error:' + err });
+        return;
+      } else {
+        res.setHeader('Content-Type', 'application/json');
+        res.send({callId: session.sessionId})
+      }
 });
 
 /**
- * GET /room/:name
+ * GET /room/:name/:usernae - Non-vaas demo
  */
 router.get('/room/:name/:username', function (req, res) {
   var roomName = req.params.name;
@@ -102,6 +112,8 @@ router.get('/room/:name/:username', function (req, res) {
     });
   }
 });
+
+//TWILIO
 
 function makeid(length) {
    var result           = '';
@@ -164,6 +176,9 @@ router.get('/twilio/room/:name/:username', function (req, res) {
       });
 });
 
+
+
+//UNUSED ARCHIVE FEATURES
 /**
  * POST /archive/start
  */
