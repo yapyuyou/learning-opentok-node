@@ -48,8 +48,8 @@ router.get('/tokbox/session', function (req, res) {
         res.status(500).send({ error: 'createSession error:' + err });
         return;
       } else {
-        res.setHeader('Content-Type', 'application/json');
-        res.send({callId: session.sessionId})
+        res.setHeader('Content-Type', 'text/plain');
+        res.send(session.sessionId)
       }
     });
 })
