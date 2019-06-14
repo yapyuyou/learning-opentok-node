@@ -49,7 +49,7 @@ router.get('/tokbox/create', function (req, res) {
         return;
       } else {
         res.setHeader('Content-Type', 'application/json');
-        res.send(session.sessionId)
+        res.send({callId: session.sessionId})
       }
     });
 })
