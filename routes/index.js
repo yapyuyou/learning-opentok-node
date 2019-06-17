@@ -54,8 +54,28 @@ router.get('/tokbox/create', function (req, res) {
     });
 })
 
+router.get('/tokbox/join/:sessionId/:username', function(req, res) {
+  var sessionId = req.params.sessionId;
+  var username = req.params.username;
+  
+  //Generate token
+  var tokenOptions = {};
+  tokenOptions.role = "moderator";
+  tokenOptions.data = "username=" + username;
+  
+  var token = opentok.generate(sessionId, tokenOptions);
+  
+  //Send response
+  res.setHeader('Content-Type', 'application/json');
+    res.send({
+      apiKey: apiKey,
+      sessionId: sessionId,
+      token: token
+    });
+});
+
 /**
- * GET /room/:name/:usernae - Non-vaas demo
+ * GET /room/:name/:username - Non-vaas demo
  */
 router.get('/room/:name/:username', function (req, res) {
   var roomName = req.params.name;
