@@ -38,6 +38,8 @@ router.get('/', function (req, res) {
   res.render('index', { title: 'Learning-OpenTok-Node' });
 });
 
+
+var currentId = "";
 /**
  * GET /session
  */
@@ -50,9 +52,15 @@ router.get('/tokbox/create', function (req, res) {
       } else {
         res.setHeader('Content-Type', 'application/json');
         res.send({callId: session.sessionId});
+        currentId = session.sessionId;
       }
     });
 })
+
+router.get('/tokbox/current', function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send({callId: currentId});
+});
 
 router.get('/tokbox/join/:sessionId/:username', function(req, res) {
   var sessionId = req.params.sessionId;
