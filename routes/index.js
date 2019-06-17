@@ -63,13 +63,13 @@ router.get('/tokbox/join/:sessionId/:username', function(req, res) {
   tokenOptions.role = "moderator";
   tokenOptions.data = "username=" + username;
   
-  var token = opentok.generate(sessionId, tokenOptions);
+  var token = opentok.generateToken(sessionId, tokenOptions);
   
   //Send response
   res.setHeader('Content-Type', 'application/json');
     res.send({
       apiKey: apiKey,
-      sessionId: sessionId,
+      callId: sessionId,
       token: token
     });
 });
