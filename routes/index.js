@@ -167,7 +167,45 @@ router.post('/voice', function (req, res) {
   res.send(twiml.toString());
 });
 
+//Join for vaas demo
+router.get('/twilio/join/:room/:user', function (req, res) {
+  var roomName = req.params.room;
+  var username = req.params.user;
+  
+  var AccessToken = require('twilio').jwt.AccessToken;
+  var VideoGrant = AccessToken.VideoGrant;
 
+  var ACCOUNT_SID = 'AC386b244e1e0d1bf0bbef7afe701caea1';
+  var API_KEY_SID = 'SKc2dc2e97e8327bd4961e62f614015679';
+  var API_KEY_SECRET = 'xnhlPbruPe6G2dURv6cz5kaUgsDnDk6Z';
+
+  // Create an Access Token
+  var accessToken = new AccessToken(
+  ACCOUNT_SID,
+  API_KEY_SID,
+  API_KEY_SECRET
+  );
+
+  // Set the Identity of this token
+  accessToken.identity = username;
+
+  // Grant access to Video
+  var grant = new VideoGrant();
+  grant.room = roomName;
+  accessToken.addGrant(grant);
+
+  // Serialize the token as a JWT
+  var jwt = accessToken.toJwt();
+  console.log(jwt);
+  
+  res.setHeader('Content-Type', 'application/json');
+      res.send({
+        message: "VoicR-conference-calling",
+        token: jwt
+      });
+});
+
+//Join for non-vaas demo
 router.get('/twilio/room/:name/:username', function (req, res) {
   var roomName = req.params.name;
   var username = req.params.username;
