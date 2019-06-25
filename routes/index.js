@@ -191,8 +191,8 @@ router.get('/twilio/join/:room/:user', function (req, res) {
   );
 
   // Set the Identity of this token
-  accessToken.identity = username;
-
+  //accessToken.identity = username;
+  accessToken.identity = 'client:lucas';
   // Grant access to Video
   //var grant = new VideoGrant();
   //grant.room = roomName;
