@@ -174,6 +174,7 @@ router.get('/twilio/join/:room/:user', function (req, res) {
   
   var AccessToken = require('twilio').jwt.AccessToken;
   var VideoGrant = AccessToken.VideoGrant;
+  const VoiceGrant = AccessToken.VoiceGrant;
 
   var ACCOUNT_SID = 'AC386b244e1e0d1bf0bbef7afe701caea1';
   var API_KEY_SID = 'SKc2dc2e97e8327bd4961e62f614015679';
@@ -190,8 +191,13 @@ router.get('/twilio/join/:room/:user', function (req, res) {
   accessToken.identity = username;
 
   // Grant access to Video
-  var grant = new VideoGrant();
-  grant.room = roomName;
+  //var grant = new VideoGrant();
+  //grant.room = roomName;
+  
+  //Grant access to Voice
+  const voiceGrant = new VoiceGrant({
+  outgoingApplicationSid: "APbbe7a680cc14449187d80ef02ddda9a9",
+  incomingAllow: false });
   accessToken.addGrant(grant);
 
   // Serialize the token as a JWT
