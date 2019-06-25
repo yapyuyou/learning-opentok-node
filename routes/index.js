@@ -176,9 +176,12 @@ router.get('/twilio/join/:room/:user', function (req, res) {
   var VideoGrant = AccessToken.VideoGrant;
   const VoiceGrant = AccessToken.VoiceGrant;
 
+  //var ACCOUNT_SID = 'AC386b244e1e0d1bf0bbef7afe701caea1';
+  //var API_KEY_SID = 'SKc2dc2e97e8327bd4961e62f614015679';
+  //var API_KEY_SECRET = 'xnhlPbruPe6G2dURv6cz5kaUgsDnDk6Z';
   var ACCOUNT_SID = 'AC386b244e1e0d1bf0bbef7afe701caea1';
-  var API_KEY_SID = 'SKc2dc2e97e8327bd4961e62f614015679';
-  var API_KEY_SECRET = 'xnhlPbruPe6G2dURv6cz5kaUgsDnDk6Z';
+  var API_KEY_SID = 'SKba428bcfd2b23d33926d32e064459d6c';
+  var API_KEY_SECRET = 'IZRD1gQEqbnSRkJ7vhfR72PsTpYV2wFU';
 
   // Create an Access Token
   var accessToken = new AccessToken(
