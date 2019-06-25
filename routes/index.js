@@ -197,7 +197,7 @@ router.get('/twilio/join/:room/:user', function (req, res) {
   //Grant access to Voice
   const grant = new VoiceGrant({
   outgoingApplicationSid: "APbbe7a680cc14449187d80ef02ddda9a9",
-  incomingAllow: false });
+  incomingAllow: true });
   accessToken.addGrant(grant);
 
   // Serialize the token as a JWT
