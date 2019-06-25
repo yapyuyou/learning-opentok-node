@@ -195,7 +195,7 @@ router.get('/twilio/join/:room/:user', function (req, res) {
   //grant.room = roomName;
   
   //Grant access to Voice
-  const voiceGrant = new VoiceGrant({
+  const grant = new VoiceGrant({
   outgoingApplicationSid: "APbbe7a680cc14449187d80ef02ddda9a9",
   incomingAllow: false });
   accessToken.addGrant(grant);
