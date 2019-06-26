@@ -167,6 +167,26 @@ router.post('/voice', function (req, res) {
   res.send(twiml.toString());
 });
 
+//Test for vaas demo
+router.post('/makecall' function(request, response) {
+  // The recipient of the call, a phone number or a client
+  var to = "+14109412752";
+
+  const voiceResponse = new VoiceResponse();
+
+  if (!to) {
+      voiceResponse.say("Congratulations! You have made your first call! Good bye.");
+  } else if (isNumber(to)) {
+      const dial = voiceResponse.dial({callerId : "+4917674107566"});
+      dial.number(to);
+  } else {
+      const dial = voiceResponse.dial({callerId : "+4917674107566"});
+      dial.client(to);
+  }
+  console.log('Response:' + voiceResponse.toString());
+  return response.send(voiceResponse.toString());
+});
+
 //Join for vaas demo
 router.get('/twilio/join/:room/:user', function (req, res) {
   var roomName = req.params.room;
