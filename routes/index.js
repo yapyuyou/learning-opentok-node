@@ -166,7 +166,7 @@ router.post('/voice', function (req, res) {
   //twiml.say({ voice: 'alice' }, 'Hello World');
   const connect = twiml.connect();
   if (request.body.identity != null) {
-    connect.room({ participantIdentity: request.body.identity, 'channel1');
+    connect.room({ participantIdentity: request.body.identity}, 'channel1');
   } else {
     connect.room({ participantIdentity: 'Globalstar' + makeid(4)}, 'channel1');
   };
@@ -203,7 +203,7 @@ router.get('/twilio/join/:room/:user', function (req, res) {
   API_KEY_SECRET
   );
   
-  accessToken.identity = "lucas";
+  accessToken.identity = username;
   
   //Grant access to Voice
   const grant = new VoiceGrant({
