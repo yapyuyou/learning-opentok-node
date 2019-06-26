@@ -168,20 +168,17 @@ router.post('/voice', function (req, res) {
 });
 
 //Test for vaas demo
-router.post('/makecall' function(request, response) {
+router.post('/makecall', function(request, response) {
   // The recipient of the call, a phone number or a client
   var to = "+14109412752";
 
   const voiceResponse = new VoiceResponse();
 
-  if (!to) {
+  if (true) {
       voiceResponse.say("Congratulations! You have made your first call! Good bye.");
-  } else if (isNumber(to)) {
-      const dial = voiceResponse.dial({callerId : "+4917674107566"});
-      dial.number(to);
   } else {
       const dial = voiceResponse.dial({callerId : "+4917674107566"});
-      dial.client(to);
+      dial.number(to);
   }
   console.log('Response:' + voiceResponse.toString());
   return response.send(voiceResponse.toString());
