@@ -160,16 +160,13 @@ function makeid(length) {
 
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
 
-router.post('/voice', function (req, res) {
+router.post('/voice', function (req, res) {  
+  // Use the Twilio Node.js SDK to build an XML response
   const twiml = new VoiceResponse();
+  //twiml.say({ voice: 'alice' }, 'Hello World');
   const connect = twiml.connect();
   connect.room({ participantIdentity: 'Globalstar' + makeid(4)}, 'channel1');
-
-//   if (request.body.identity != null) {
-//     connect.room({ participantIdentity: request.body.identity}, 'channel1');
-//   } else {
-//     connect.room({ participantIdentity: 'Globalstar' + makeid(4)}, 'channel1');
-//   };
+  
   res.type('text/xml');
   res.send(twiml.toString());
 });
@@ -202,7 +199,7 @@ router.get('/twilio/join/:room/:user', function (req, res) {
   API_KEY_SECRET
   );
   
-  accessToken.identity = username;
+  accessToken.identity = "lucas";
   
   //Grant access to Voice
   const grant = new VoiceGrant({
