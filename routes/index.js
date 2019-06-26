@@ -165,7 +165,11 @@ router.post('/voice', function (req, res) {
   const twiml = new VoiceResponse();
   //twiml.say({ voice: 'alice' }, 'Hello World');
   const connect = twiml.connect();
-  connect.room({ participantIdentity: 'Globalstar' + makeid(4)}, 'channel1');
+  if (request.body.identity != null) {
+    connect.room({ participantIdentity: request.body.identity, 'channel1');
+  } else {
+    connect.room({ participantIdentity: 'Globalstar' + makeid(4)}, 'channel1');
+  };
   
   res.type('text/xml');
   res.send(twiml.toString());
