@@ -167,21 +167,21 @@ router.post('/voice', function (req, res) {
   res.send(twiml.toString());
 });
 
+var yes = true;
+
 //Test for vaas demo
 router.post('/makecall', function(request, response) {
-  // The recipient of the call, a phone number or a client
-  var to = "+14109412752";
+  const accountSid = 'AC386b244e1e0d1bf0bbef7afe701caea1';
+  const authToken = '9eac7570321b7dec5d0254cf0b6bae44';
+  const client = require('twilio')(accountSid, authToken);
 
-  const voiceResponse = new VoiceResponse();
-
-  if (true) {
-      voiceResponse.say("Congratulations! You have made your first call! Good bye.");
-  } else {
-      const dial = voiceResponse.dial({callerId : "+4917674107566"});
-      dial.number(to);
-  }
-  console.log('Response:' + voiceResponse.toString());
-  return response.send(voiceResponse.toString());
+  client.calls
+        .create({
+           url: 'http://demo.twilio.com/docs/voice.xml',
+           to: '+14109412752',
+           from: '+4917674107566'
+         })
+        .then(call => console.log(call.sid));
 });
 
 //Join for vaas demo
@@ -215,11 +215,12 @@ router.get('/twilio/join/:room/:user', function (req, res) {
   //grant.room = roomName;
   
   //  outgoingApplicationSid: "AP4d333400ab26450984a6baee9ee8840a",
+  // outgoingApplicationSid: "APbbe7a680cc14449187d80ef02ddda9a9",
   
   //Grant access to Voice
   const grant = new VoiceGrant({
-  outgoingApplicationSid: "APbbe7a680cc14449187d80ef02ddda9a9",
-  incomingAllow: true });
+    outgoingApplicationSid: "AP4d333400ab26450984a6baee9ee8840a",
+    incomingAllow: true });
   accessToken.addGrant(grant);
 
   // Serialize the token as a JWT
