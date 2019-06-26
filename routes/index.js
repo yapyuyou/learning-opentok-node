@@ -143,6 +143,10 @@ router.get('/room/:name/:username', function (req, res) {
 });
 
 //TWILIO
+const ACCOUNT_SID = 'AC093f191555597f7891b45d88e3e3dcec'; //YN
+const API_KEY_SID = 'SK8557877fd573930f70c8ebf883d5da21'; //YN
+const API_KEY_SECRET = 'RssEzpSaVzSJDwN4de0arxApD4ZMRL2a'; //YN
+const AUTH_TOKEN = '51d9b33a4aeaab7575c74ec19463c1d1'; //YN
 
 function makeid(length) {
    var result           = '';
@@ -167,13 +171,9 @@ router.post('/voice', function (req, res) {
   res.send(twiml.toString());
 });
 
-var yes = true;
-
 //Test for vaas demo
-router.post('/makecall', function(request, response) {
-  const accountSid = 'AC386b244e1e0d1bf0bbef7afe701caea1';
-  const authToken = '9eac7570321b7dec5d0254cf0b6bae44';
-  const client = require('twilio')(accountSid, authToken);
+router.post('/makeCall', function(request, response) {
+  const client = require('twilio')(ACCOUNT_SID, AUTH_TOKEN);
 
   client.calls
         .create({
@@ -190,15 +190,7 @@ router.get('/twilio/join/:room/:user', function (req, res) {
   var username = req.params.user;
   
   var AccessToken = require('twilio').jwt.AccessToken;
-  var VideoGrant = AccessToken.VideoGrant;
   const VoiceGrant = AccessToken.VoiceGrant;
-
-  //var ACCOUNT_SID = 'AC386b244e1e0d1bf0bbef7afe701caea1';
-  //var API_KEY_SID = 'SKc2dc2e97e8327bd4961e62f614015679';
-  //var API_KEY_SECRET = 'xnhlPbruPe6G2dURv6cz5kaUgsDnDk6Z';
-  var ACCOUNT_SID = 'AC386b244e1e0d1bf0bbef7afe701caea1';
-  var API_KEY_SID = 'SKba428bcfd2b23d33926d32e064459d6c';
-  var API_KEY_SECRET = 'IZRD1gQEqbnSRkJ7vhfR72PsTpYV2wFU';
 
   // Create an Access Token
   var accessToken = new AccessToken(
@@ -206,20 +198,12 @@ router.get('/twilio/join/:room/:user', function (req, res) {
   API_KEY_SID,
   API_KEY_SECRET
   );
-
-  // Set the Identity of this token
-  //accessToken.identity = username;
-  accessToken.identity = "client:lucas";
-  // Grant access to Video
-  //var grant = new VideoGrant();
-  //grant.room = roomName;
   
-  //  outgoingApplicationSid: "AP4d333400ab26450984a6baee9ee8840a",
-  // outgoingApplicationSid: "APbbe7a680cc14449187d80ef02ddda9a9",
+  accessToken.identity = "lucas";
   
   //Grant access to Voice
   const grant = new VoiceGrant({
-    outgoingApplicationSid: "AP4d333400ab26450984a6baee9ee8840a",
+    outgoingApplicationSid: "APc3c3bd75e14f47faa628ecef38f84b42",
     incomingAllow: true });
   accessToken.addGrant(grant);
 
@@ -241,10 +225,6 @@ router.get('/twilio/room/:name/:username', function (req, res) {
   
   var AccessToken = require('twilio').jwt.AccessToken;
   var VideoGrant = AccessToken.VideoGrant;
-
-  var ACCOUNT_SID = 'AC386b244e1e0d1bf0bbef7afe701caea1';
-  var API_KEY_SID = 'SKc2dc2e97e8327bd4961e62f614015679';
-  var API_KEY_SECRET = 'xnhlPbruPe6G2dURv6cz5kaUgsDnDk6Z';
 
   // Create an Access Token
   var accessToken = new AccessToken(
@@ -270,117 +250,6 @@ router.get('/twilio/room/:name/:username', function (req, res) {
         message: "VoicR-conference-calling",
         token: jwt
       });
-});
-
-
-
-//UNUSED ARCHIVE FEATURES
-/**
- * POST /archive/start
- */
-router.post('/archive/start', function (req, res) {
-  var json = req.body;
-  var sessionId = json.sessionId;
-  opentok.startArchive(sessionId, { name: findRoomFromSessionId(sessionId) }, function (err, archive) {
-    if (err) {
-      console.error('error in startArchive');
-      console.error(err);
-      res.status(500).send({ error: 'startArchive error:' + err });
-      return;
-    }
-    res.setHeader('Content-Type', 'application/json');
-    res.send(archive);
-  });
-});
-
-/**
- * POST /archive/:archiveId/stop
- */
-router.post('/archive/:archiveId/stop', function (req, res) {
-  var archiveId = req.params.archiveId;
-  console.log('attempting to stop archive: ' + archiveId);
-  opentok.stopArchive(archiveId, function (err, archive) {
-    if (err) {
-      console.error('error in stopArchive');
-      console.error(err);
-      res.status(500).send({ error: 'stopArchive error:' + err });
-      return;
-    }
-    res.setHeader('Content-Type', 'application/json');
-    res.send(archive);
-  });
-});
-
-/**
- * GET /archive/:archiveId/view
- */
-router.get('/archive/:archiveId/view', function (req, res) {
-  var archiveId = req.params.archiveId;
-  console.log('attempting to view archive: ' + archiveId);
-  opentok.getArchive(archiveId, function (err, archive) {
-    if (err) {
-      console.error('error in getArchive');
-      console.error(err);
-      res.status(500).send({ error: 'getArchive error:' + err });
-      return;
-    }
-
-    if (archive.status === 'available') {
-      res.redirect(archive.url);
-    } else {
-      res.render('view', { title: 'Archiving Pending' });
-    }
-  });
-});
-
-/**
- * GET /archive/:archiveId
- */
-router.get('/archive/:archiveId', function (req, res) {
-  var archiveId = req.params.archiveId;
-
-  // fetch archive
-  console.log('attempting to fetch archive: ' + archiveId);
-  opentok.getArchive(archiveId, function (err, archive) {
-    if (err) {
-      console.error('error in getArchive');
-      console.error(err);
-      res.status(500).send({ error: 'getArchive error:' + err });
-      return;
-    }
-
-    // extract as a JSON object
-    res.setHeader('Content-Type', 'application/json');
-    res.send(archive);
-  });
-});
-
-/**
- * GET /archive
- */
-router.get('/archive', function (req, res) {
-  var options = {};
-  if (req.query.count) {
-    options.count = req.query.count;
-  }
-  if (req.query.offset) {
-    options.offset = req.query.offset;
-  }
-
-  // list archives
-  console.log('attempting to list archives');
-  opentok.listArchives(options, function (err, archives) {
-    if (err) {
-      console.error('error in listArchives');
-      console.error(err);
-      res.status(500).send({ error: 'infoArchive error:' + err });
-      return;
-    }
-
-    // extract as a JSON object
-    res.setHeader('Content-Type', 'application/json');
-    res.send(archives);
-  });
 });
 
 module.exports = router;
