@@ -209,14 +209,14 @@ router.get('/twilio/join/:room/:user', function (req, res) {
 
   // Set the Identity of this token
   //accessToken.identity = username;
-  accessToken.identity = 'client:lucas';
+  accessToken.identity = "client:lucas";
   // Grant access to Video
   //var grant = new VideoGrant();
   //grant.room = roomName;
   
   //Grant access to Voice
   const grant = new VoiceGrant({
-  outgoingApplicationSid: "APbbe7a680cc14449187d80ef02ddda9a9",
+  outgoingApplicationSid: "AP4d333400ab26450984a6baee9ee8840a",
   incomingAllow: true });
   accessToken.addGrant(grant);
 
