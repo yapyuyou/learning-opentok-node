@@ -170,8 +170,12 @@ router.post('/voice', function (req, res) {
 router.get('twilio/participants', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
   res.send({
-  list: Object.values(participants)
-    });
+        message: "VoicR-conference-calling",
+        token: "haha"
+      });
+//   res.send({
+//   list: Object.values(participants)
+//     });
   });
 
 //Notify when leaving for vaas demo
