@@ -169,8 +169,10 @@ router.post('/voice', function (req, res) {
 //Presence check for vaas demo
 router.get('twilio/participants', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-  res.send({Object.values(participants)});
-});
+  res.send({
+  list: Object.values(participants)
+    });
+  });
 
 //Notify when leaving for vaas demo
 router.get('twilio/leave/:username', function (req, res) {
