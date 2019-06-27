@@ -167,19 +167,13 @@ router.post('/voice', function (req, res) {
 });
 
 //Presence check for vaas demo
-router.get('twilio/participants', function (req, res) {
+router.get('/twilio/participants', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-  res.send({
-        message: "VoicR-conference-calling",
-        token: "haha"
-      });
-//   res.send({
-//   list: Object.values(participants)
-//     });
+  res.send(Object.values(participants));
   });
 
 //Notify when leaving for vaas demo
-router.get('twilio/leave/:username', function (req, res) {
+router.get('/twilio/leave/:username', function (req, res) {
   var username = req.params.username;
   delete participants(username);
 });
