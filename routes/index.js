@@ -161,13 +161,13 @@ router.post('/voice', function (req, res) {
   try {
     var user = JSON.parse(req.body.identity);
   
-    connect.room({ participantIdentity: user.username }, 'channel1');
+    connect.room({ participantIdentity: user.username }, 'Globalstar');
     participants[user.username] = user; //Set in dictionary
   } catch (err) {
     var globalstar = "Globalstar#" + makeid(4);
     //var avtr = makeid(1);
     
-    connect.room({ participantIdentity: globalstar }, 'channel1');
+    connect.room({ participantIdentity: globalstar }, 'Globalstar');
     //participants[globalstar] = JSON.parse('{"username": "'+ globalstar +'", "avatar":"' + avtr + '"}'); //Set in dictionary
   }
   
