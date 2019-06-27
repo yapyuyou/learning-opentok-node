@@ -158,6 +158,7 @@ function makeid(length) {
    return result;
 }
 
+//For vaas demo dial-in <- THIS IS THE IMPORTANT ONE
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
 
 router.post('/voice', function (req, res) {  
@@ -172,7 +173,7 @@ router.post('/voice', function (req, res) {
   res.send(twiml.toString());
 });
 
-//Test for vaas demo
+//Test for vaas demo (unused)
 router.post('/makeCall', function(request, response) {
   const client = require('twilio')(ACCOUNT_SID, AUTH_TOKEN);
 
@@ -185,11 +186,8 @@ router.post('/makeCall', function(request, response) {
         .then(call => console.log(call.sid));
 });
 
-//Join for vaas demo
-router.get('/twilio/join/:room/:user', function (req, res) {
-  var roomName = req.params.room;
-  var username = req.params.user;
-  
+//Get token for vaas demo
+router.get('/twilio/token', function (req, res) {  
   var AccessToken = require('twilio').jwt.AccessToken;
   const VoiceGrant = AccessToken.VoiceGrant;
 
@@ -200,7 +198,7 @@ router.get('/twilio/join/:room/:user', function (req, res) {
   API_KEY_SECRET
   );
   
-  accessToken.identity = "lucas";
+  //accessToken.identity = "lucas";
   
   //Grant access to Voice
   const grant = new VoiceGrant({
