@@ -185,6 +185,7 @@ router.get('/twilio/participants', function (req, res) {
 router.get('/twilio/leave/:username', function (req, res) {
   var username = req.params.username;
   delete participants[username];
+  res.sendStatus(200);
 });
 
 //Get token for vaas demo
