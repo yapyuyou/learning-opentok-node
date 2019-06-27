@@ -156,11 +156,20 @@ var participants = {};
 
 router.post('/voice', function (req, res) {  
   const twiml = new VoiceResponse();
-  var user = JSON.parse(req.body.identity);
-  
   const connect = twiml.connect();
-  connect.room({ participantIdentity: user.username }, 'channel1');
-  participants[user.username] = user; //Set in dictionary
+
+  try {
+    var user = JSON.parse(req.body.identity);
+  
+    connect.room({ participantIdentity: user.username }, 'channel1');
+    participants[user.username] = user; //Set in dictionary
+  } catch (err) {
+    var globalstar = "Globalstar#" + makeid(4);
+    //var avtr = makeid(1);
+    
+    connect.room({ participantIdentity: globalstar }, 'channel1');
+    //participants[globalstar] = JSON.parse('{"username": "'+ globalstar +'", "avatar":"' + avtr + '"}'); //Set in dictionary
+  }
   
   res.type('text/xml');
   res.send(twiml.toString());
