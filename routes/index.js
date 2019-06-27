@@ -20,11 +20,6 @@ if (!apiKey || !secret) {
 var OpenTok = require('opentok');
 var opentok = new OpenTok(apiKey, secret);
 
-// IMPORTANT: roomToSessionIdDictionary is a variable that associates room names with unique
-// unique sesssion IDs. However, since this is stored in memory, restarting your server will
-// reset these values if you want to have a room-to-session association in your production
-// application you should consider a more persistent storage
-
 var roomToSessionIdDictionary = {};
 
 // returns the room name, given a session ID that was associated with it
@@ -118,11 +113,7 @@ router.get('/room/:name/:username', function (req, res) {
         res.status(500).send({ error: 'createSession error:' + err });
         return;
       }
-
-      // now that the room name has a session associated wit it, store it in memory
-      // IMPORTANT: Because this is stored in memory, restarting your server will reset these values
-      // if you want to store a room-to-session association in your production application
-      // you should use a more persistent storage for them
+      
       roomToSessionIdDictionary[roomName] = session.sessionId;
 
       var tokenOptions = {};
@@ -161,29 +152,30 @@ function makeid(length) {
 //For vaas demo dial-in <- THIS IS THE IMPORTANT ONE
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
 
+var participants = {};
+
 router.post('/voice', function (req, res) {  
-  // Use the Twilio Node.js SDK to build an XML response
   const twiml = new VoiceResponse();
-  //twiml.say({ voice: 'alice' }, 'Hello World');
+  var user = JSON.parse(req.body.identity);
+  
   const connect = twiml.connect();
-  connect.room({ participantIdentity: req.body.identity }, 'channel1');
-  //connect.room({ participantIdentity: 'Globalstar' + makeid(4)}, 'channel1');
+  connect.room({ participantIdentity: user.username }, 'channel1');
+  participants[user.username] = user; //Set in dictionary
   
   res.type('text/xml');
   res.send(twiml.toString());
 });
 
-//Test for vaas demo (unused)
-router.post('/makeCall', function(request, response) {
-  const client = require('twilio')(ACCOUNT_SID, AUTH_TOKEN);
+//Presence check for vaas demo
+router.get('twilio/participants', function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(Object.values(participants));
+});
 
-  client.calls
-        .create({
-           url: 'http://demo.twilio.com/docs/voice.xml',
-           to: '+17402003332',
-           from: 'lucas123'
-         })
-        .then(call => console.log(call.sid));
+//Notify when leaving for vaas demo
+router.get('twilio/leave/:username', function (req, res) {
+  var username = req.params.username;
+  delete participants(username);
 });
 
 //Get token for vaas demo
@@ -191,15 +183,12 @@ router.get('/twilio/token', function (req, res) {
   var AccessToken = require('twilio').jwt.AccessToken;
   const VoiceGrant = AccessToken.VoiceGrant;
 
-  // Create an Access Token
   var accessToken = new AccessToken(
   ACCOUNT_SID,
   API_KEY_SID,
   API_KEY_SECRET
   );
-  
-  //accessToken.identity = "lucas";
-  
+    
   //Grant access to Voice
   const grant = new VoiceGrant({
     outgoingApplicationSid: "AP3c1449d2ff455e07bf49645edaa8caf0",
