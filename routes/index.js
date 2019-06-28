@@ -134,10 +134,11 @@ router.get('/room/:name/:username', function (req, res) {
 });
 
 //TWILIO
-const ACCOUNT_SID = 'AC093f191555597f7891b45d88e3e3dcec'; //YN
-const API_KEY_SID = 'SK8557877fd573930f70c8ebf883d5da21'; //YN
-const API_KEY_SECRET = 'RssEzpSaVzSJDwN4de0arxApD4ZMRL2a'; //YN
-const AUTH_TOKEN = '51d9b33a4aeaab7575c74ec19463c1d1'; //YN
+const ACCOUNT_SID = process.env.TWILIO_ACC_SID; //YN
+const API_KEY_SID = process.env.TWILIO_API_KEY; //YN
+const API_KEY_SECRET = process.env.TWILIO_KEY_SECRET; //YN
+const AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN; //YN
+const APP_SID = process.env.TWILIO_APP_SID;
 
 function makeid(length) {
    var result           = '';
@@ -201,7 +202,7 @@ router.get('/twilio/token', function (req, res) {
     
   //Grant access to Voice
   const grant = new VoiceGrant({
-    outgoingApplicationSid: "AP3c1449d2ff455e07bf49645edaa8caf0",
+    outgoingApplicationSid: APP_SID,
     incomingAllow: true });
   accessToken.addGrant(grant);
 
