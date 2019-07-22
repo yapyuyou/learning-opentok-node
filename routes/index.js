@@ -155,6 +155,15 @@ const VoiceResponse = require('twilio').twiml.VoiceResponse;
 
 var participants = {};
 
+router.post('/conference', function (req, res) {  
+  const twiml = new VoiceResponse();
+  const dial = response.dial();
+  dial.conference('Globalstar');
+  
+  res.type('text/xml');
+  res.send(twiml.toString());
+});
+
 router.post('/voice', function (req, res) {  
   const twiml = new VoiceResponse();
   const connect = twiml.connect();
@@ -189,6 +198,12 @@ router.get('/twilio/leave/:username', function (req, res) {
   res.send({message: "OK"});
 });
 
+router.post('/twilio/join', function (req, res) {
+  var user = JSON.parse(req.body.identity);
+  participants[user.username] = user; //Set in dictionary
+  res.send({message: "OK"});
+});
+
 //Get token for vaas demo
 router.get('/twilio/token', function (req, res) {  
   var AccessToken = require('twilio').jwt.AccessToken;
@@ -217,7 +232,7 @@ router.get('/twilio/token', function (req, res) {
       });
 });
 
-//Join for non-vaas demo
+//for non-vaas demo
 router.get('/twilio/room/:name/:username', function (req, res) {
   var roomName = req.params.name;
   var username = req.params.username;
