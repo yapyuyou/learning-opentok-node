@@ -158,6 +158,14 @@ var participants = {};
 router.post('/conference', function (req, res) {  
   const twiml = new VoiceResponse();
   const dial = twiml.dial();
+
+try {
+    var user = JSON.parse(req.body.identity);
+    participants[user.username] = user;
+  } catch (err) {
+    var globalstar = "Globalstar#" + makeid(4);
+  }
+
   dial.conference({ waitUrl: '' }, 'Globalstar');
   
   res.type('text/xml');
