@@ -158,7 +158,7 @@ var participants = {};
 router.post('/conference', function (req, res) {  
   const twiml = new VoiceResponse();
   const dial = twiml.dial();
-  dial.conference('Globalstar');
+  dial.conference({ waitUrl: '' }, 'Globalstar');
   
   res.type('text/xml');
   res.send(twiml.toString());
