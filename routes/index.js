@@ -57,14 +57,14 @@ router.get('/tokbox/current', function (req, res) {
   res.send({callId: currentId});
 });
 
-router.get('/tokbox/join/:sessionId/:username', function(req, res) {
+router.get('/tokbox/join/:sessionId/:alias', function(req, res) {
   var sessionId = req.params.sessionId;
-  var username = req.params.username;
+  var alias = req.params.alias;
   
   //Generate token
   var tokenOptions = {};
   tokenOptions.role = "moderator";
-  tokenOptions.data = "username=" + username;
+  tokenOptions.data = "alias=" + alias;
   
   var token = opentok.generateToken(sessionId, tokenOptions);
   
@@ -78,11 +78,11 @@ router.get('/tokbox/join/:sessionId/:username', function(req, res) {
 });
 
 /**
- * GET /room/:name/:username - Non-vaas demo
+ * GET /room/:name/:alias - Non-vaas demo
  */
-router.get('/room/:name/:username', function (req, res) {
+router.get('/room/:name/:alias', function (req, res) {
   var roomName = req.params.name;
-  var username = req.params.username;
+  var alias = req.params.alias;
   var sessionId;
   var token;
   console.log('attempting to create a session associated with the room: ' + roomName);
@@ -93,7 +93,7 @@ router.get('/room/:name/:username', function (req, res) {
 
     var tokenOptions = {};
     tokenOptions.role = "moderator";
-    tokenOptions.data = "username=" + username;
+    tokenOptions.data = "alias=" + alias;
 
     // Generate a token.
     token = opentok.generateToken(sessionId, tokenOptions);
@@ -118,7 +118,7 @@ router.get('/room/:name/:username', function (req, res) {
 
       var tokenOptions = {};
       tokenOptions.role = "moderator";
-      tokenOptions.data = "username=" + username;
+      tokenOptions.data = "alias=" + alias;
 
       // Generate a token.
       token = opentok.generateToken(session.sessionId, tokenOptions);
@@ -161,7 +161,7 @@ router.post('/conference', function (req, res) {
 
 try {
     var user = JSON.parse(req.body.identity);
-    participants[user.username] = user;
+    participants[user.alias] = user;
   } catch (err) {
     var globalstar = "Globalstar#" + makeid(4);
   }
@@ -179,14 +179,14 @@ router.post('/voice', function (req, res) {
   try {
     var user = JSON.parse(req.body.identity);
   
-    connect.room({ participantIdentity: user.username }, 'Globalstar');
-    participants[user.username] = user; //Set in dictionary
+    connect.room({ participantIdentity: user.alias }, 'Globalstar');
+    participants[user.alias] = user; //Set in dictionary
   } catch (err) {
     var globalstar = "Globalstar#" + makeid(4);
     //var avtr = makeid(1);
     
     connect.room({ participantIdentity: globalstar }, 'Globalstar');
-    //participants[globalstar] = JSON.parse('{"username": "'+ globalstar +'", "avatar":"' + avtr + '"}'); //Set in dictionary
+    //participants[globalstar] = JSON.parse('{"alias": "'+ globalstar +'", "avatar":"' + avtr + '"}'); //Set in dictionary
   }
   
   res.type('text/xml');
@@ -200,15 +200,15 @@ router.get('/twilio/participants', function (req, res) {
   });
 
 //Notify when leaving for vaas demo
-router.get('/twilio/leave/:username', function (req, res) {
-  var username = req.params.username;
-  delete participants[username];
+router.get('/twilio/leave/:alias', function (req, res) {
+  var alias = req.params.alias;
+  delete participants[alias];
   res.send({message: "OK"});
 });
 
 router.post('/twilio/join', function (req, res) {
   var user = JSON.parse(req.body.identity);
-  participants[user.username] = user; //Set in dictionary
+  participants[user.alias] = user; //Set in dictionary
   res.send({message: "OK"});
 });
 
@@ -241,9 +241,9 @@ router.get('/twilio/token', function (req, res) {
 });
 
 //for non-vaas demo
-router.get('/twilio/room/:name/:username', function (req, res) {
+router.get('/twilio/room/:name/:alias', function (req, res) {
   var roomName = req.params.name;
-  var username = req.params.username;
+  var alias = req.params.alias;
   
   var AccessToken = require('twilio').jwt.AccessToken;
   var VideoGrant = AccessToken.VideoGrant;
@@ -256,7 +256,7 @@ router.get('/twilio/room/:name/:username', function (req, res) {
   );
 
   // Set the Identity of this token
-  accessToken.identity = username;
+  accessToken.identity = alias;
 
   // Grant access to Video
   var grant = new VideoGrant();
